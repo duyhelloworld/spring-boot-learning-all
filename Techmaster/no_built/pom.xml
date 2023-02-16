@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="https://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" >
+<modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.company</groupId>
+    <artifactId>no_built</artifactId>
+    <version>4.0.0-SNAPSHOT</version> <!-- Version of package -->
+
+    <!-- 3 line is required to config -->
+    <!-- result : full artifact name : com.company:demo:1 -->
+    <!-- See in maven timeline of VS code -->
+
+    <!-- If want to make this file can load by maven -->
+    <!-- Add folder mavern + some .mvn file  -->
+
+
+    <!-- In case many artifactIDs, POM tree must have a parent -->
+
+    <!-- <modelVersion>4.0.0</modelVersion> -->
+    <!-- <parent>
+        <groupId>com.company</groupId>
+        <artifactId>no-built</artifactId>
+        <version>1</version> </parent> -->
+    <!-- <artifactId>my-app</artifactId> -->
+    <!-- 2 line below can remove -->
+    <!-- <groupId>com.company</groupId>
+    <version>1</version> -->
+
+    <!-- my-module now can inherit some properties of parent POM -->
+
+
+    <!-- DEPENDENCIES -->
+    <!-- <dependencies>
+        <dependency>>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.12.0</version>
+        </dependency>
+    </dependencies> -->
+        <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-lang3 --> -->
+</project>
