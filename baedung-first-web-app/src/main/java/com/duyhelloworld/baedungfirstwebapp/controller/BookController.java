@@ -21,13 +21,13 @@ import com.duyhelloworld.baedungfirstwebapp.model.Book;
 import com.duyhelloworld.baedungfirstwebapp.repo.BookRepo;
 
 @RestController
-@RequestMapping("/api/book/v1/")
+@RequestMapping("/api/book/v1")
 public class BookController {
     
     @Autowired
     private BookRepo bookRepo;
 
-    @GetMapping
+    @GetMapping("/")
     public Iterable<Book> findAll() {
         return bookRepo.findAll();
     }
@@ -44,7 +44,7 @@ public class BookController {
         return bookRepo.findById(id).orElseThrow(exception);
     }
 
-    @PostMapping
+    @PostMapping(path = "/")
     @ResponseStatus(code = HttpStatus.CREATED)
     public Book create(@RequestBody Book book) {
         return bookRepo.save(book);
