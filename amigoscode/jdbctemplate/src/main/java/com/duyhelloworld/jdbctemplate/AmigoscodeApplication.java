@@ -1,17 +1,17 @@
-package com.duyhelloworld.amigoscode;
+package com.duyhelloworld.jdbctemplate;
 
 import java.sql.SQLException;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import com.duyhelloworld.amigoscode.config.SpringJdbcConfig;
+import com.duyhelloworld.jdbctemplate.config.DaoFactory;
+import com.duyhelloworld.jdbctemplate.config.DataBaseType;
 
 @SpringBootApplication
 public class AmigoscodeApplication {
 	public static void main(String[] args) throws SQLException {
 		SpringApplication.run(AmigoscodeApplication.class, args);
-		SpringJdbcConfig config = new SpringJdbcConfig();
-		System.out.println(config.mysqlDS().getConnection() == null);
+		System.out.println(DaoFactory.getJdbcFactory(DataBaseType.MYSQL).getDataSource());
 	}
 }

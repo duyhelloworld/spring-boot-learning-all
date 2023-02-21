@@ -1,4 +1,4 @@
-package com.duyhelloworld.amigoscode;
+package com.duyhelloworld.jdbctemplate;
 
 public class Student {
     private Long id;
