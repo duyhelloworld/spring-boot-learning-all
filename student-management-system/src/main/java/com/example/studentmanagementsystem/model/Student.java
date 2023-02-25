@@ -1,6 +1,6 @@
 package com.example.studentmanagementsystem.model;
 
-import java.math.BigDecimal;
+// import java.math.BigDecimal;
 import java.time.LocalDate;
 
 import jakarta.persistence.Column;
@@ -9,35 +9,30 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 // import jakarta.persistence.Lob;
-// import jakarta.persistence.GeneratedValue;
-// import jakarta.persistence.GenerationType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 // import jakarta.persistence.SequenceGenerator;
 
 @Entity
 @Table(
     uniqueConstraints = {
-        @UniqueConstraint(name = "student_email_unique", columnNames = "email")
+        @UniqueConstraint(name = "student_email_unique", columnNames = "email" /* columnName used to map with @Column below */ )
     }
 )
-// column name used to map with @Column below
+
 
 public class Student{
     @Id
-    // @GeneratedValue(generator = "student_sq", strategy = GenerationType.SEQUENCE)
-    // Sequencing depend on DBMS
+    @GeneratedValue(generator = "student_sq", strategy = GenerationType.SEQUENCE /* Sequencing depend on DBMS. MySQL - auto */)
 
     // @SequenceGenerator(
-    //         name = "student_sq",
+    //         name = "student_sq", /* SequenGen(name) = GeneratedValue(generator) */
     //         allocationSize = 1,
     //         sequenceName = "student_sq",
     //         initialValue = 1
     // )
-    // "name" here map to "generator" above
 
-    // SEQUENCE in MySQL is easier
-
-    // @Column(updatable = false, scale = 0, precision = 7)
-    // Max app's user limitation = 10^7
+    // @Column(updatable = false, scale = 0, precision = 7) /* Only work when use BigDecimal */
     private int id;
 
     /**
@@ -48,26 +43,28 @@ public class Student{
      * }
      */
     
-
-    
     @Column(length = 30, nullable = false)
     private String name;
     
-    @Column
+    @Column(nullable = true)
     private int age;
     
     /**
      * 123.45
-     * precison : 5 (5 digit != 0.     10 -> 2)
-     * scale : 2 (2 number after .      10 -> 0)
+     * precison : 5 (5 digit != 0.)       10 -> 2
+     * scale : 2 (2 number after .)       10 -> 0
      */
-    @Column(scale = 2, precision = 3)
-    private BigDecimal height;
+
+    // @Column(scale = 2, precision = 3)
+    // private BigDecimal height;
+
+    @Column
+    private float height;
 
     @Column(nullable = false)
     private LocalDate dob;
 
-    @Column(nullable = false)
+    @Column(nullable = false, name = "email")
     private String email;
 
     @Column(columnDefinition = "TEXT")
@@ -78,7 +75,7 @@ public class Student{
     public Student(String name,
                 int age,
                 LocalDate dob,
-                BigDecimal height,
+                float height,
                 String email, String definition) {
         this.name = name;
         this.age = age;
@@ -89,6 +86,8 @@ public class Student{
     }
 
 
+    // BoilerPlate Code
+    
     public int getId() {
         return id;
     }
@@ -121,11 +120,11 @@ public class Student{
         this.email = email;
     }
 
-    public BigDecimal getHeight() {
+    public float getHeight() {
         return this.height;
     }
 
-    public void setHeight(BigDecimal height) {
+    public void setHeight(float height) {
         this.height = height;
     }
 

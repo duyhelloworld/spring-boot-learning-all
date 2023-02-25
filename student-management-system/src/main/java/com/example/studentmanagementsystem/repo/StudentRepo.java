@@ -1,4 +1,4 @@
-package repo;
+package com.example.studentmanagementsystem.repo;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
