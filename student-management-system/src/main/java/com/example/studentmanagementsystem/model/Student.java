@@ -16,7 +16,9 @@ import jakarta.persistence.GenerationType;
 @Entity
 @Table(
     uniqueConstraints = {
-        @UniqueConstraint(name = "student_email_unique", columnNames = "email" /* columnName used to map with @Column below */ )
+        @UniqueConstraint(name = "student_email_unique", columnNames = "email" 
+        // columnName used to map with @Column below
+        )
     }
 )
 
@@ -76,7 +78,7 @@ public class Student{
                 int age,
                 LocalDate dob,
                 float height,
-                String email, String definition) {
+            String email, String definition) {
         this.name = name;
         this.age = age;
         this.dob = dob;
@@ -84,6 +86,8 @@ public class Student{
         this.definition = definition;
         this.email = email;
     }
+    
+    public Student() {}
 
 
     // BoilerPlate Code
