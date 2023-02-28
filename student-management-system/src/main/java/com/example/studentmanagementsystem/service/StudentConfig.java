@@ -17,27 +17,23 @@ public class StudentConfig {
     CommandLineRunner commandLineRunner(StudentRepo repo) {
         return args -> {
             Student hs1 = new Student("Pham Duy",
-            18,
             LocalDate.of(2003, Month.DECEMBER, 9),
             1.75f,
             "codedao",
             "");
             Student hs2 = new Student("Viet Hoang",
-            18,
             LocalDate.of(2003, Month.FEBRUARY, 11),
             1.65f,
             "hoangdanau",
             "vtv");
 
             Student hs3 = new Student("Quang Cuon",
-            21,
             LocalDate.of(2002, Month.OCTOBER, 23),
             1.85f,
             "cuadong@mail",
             "Dep trai");
 
             Student hs4 = new Student("Pham Duy",
-            19,
             LocalDate.of(2003, Month.JULY, 5),
             1.75f,
             "codedaongaongao",

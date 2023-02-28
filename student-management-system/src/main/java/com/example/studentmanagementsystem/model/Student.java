@@ -2,11 +2,13 @@ package com.example.studentmanagementsystem.model;
 
 // import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.Period;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 import jakarta.persistence.UniqueConstraint;
 // import jakarta.persistence.Lob;
 import jakarta.persistence.GeneratedValue;
@@ -19,7 +21,8 @@ import jakarta.persistence.GenerationType;
         @UniqueConstraint(name = "student_email_unique", columnNames = "email" 
         // columnName used to map with @Column below
         )
-    }
+    },
+    name = "student"
 )
 
 
@@ -34,8 +37,10 @@ public class Student{
     //         initialValue = 1
     // )
 
-    // @Column(updatable = false, scale = 0, precision = 7) /* Only work when use BigDecimal */
-    private int id;
+    // @Column(updatable = false, scale = 0, precision = 7) 
+    /* Only work when use BigDecimal */
+    @Column(updatable = false) 
+    private Long id;
 
     /**
      * Sequence is some column auto-increment
@@ -48,8 +53,9 @@ public class Student{
     @Column(length = 30, nullable = false)
     private String name;
     
-    @Column(nullable = true)
-    private int age;
+    // @Column(nullable = true)
+    @Transient
+    private Integer age;
     
     /**
      * 123.45
@@ -61,7 +67,7 @@ public class Student{
     // private BigDecimal height;
 
     @Column
-    private float height;
+    private Float height;
 
     @Column(nullable = false)
     private LocalDate dob;
@@ -75,12 +81,10 @@ public class Student{
     private String definition;
         
     public Student(String name,
-                int age,
                 LocalDate dob,
-                float height,
+                Float height,
             String email, String definition) {
         this.name = name;
-        this.age = age;
         this.dob = dob;
         this.height = height;
         this.definition = definition;
@@ -89,13 +93,12 @@ public class Student{
     
     public Student() {}
 
-
-    // BoilerPlate Code
     
-    public int getId() {
+    
+    public Long getId() {
         return id;
     }
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
     public String getName() {
@@ -104,8 +107,8 @@ public class Student{
     public void setName(String name) {
         this.name = name;
     }
-    public int getAge() {
-        return age;
+    public Integer getAge() {
+        return Period.between(dob, LocalDate.now()).getYears();
     }
     public void setAge(int age) {
         this.age = age;
