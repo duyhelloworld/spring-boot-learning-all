@@ -52,18 +52,23 @@ public class StudentController {
 
     @GetMapping(value = "/{id}", produces = { "application/json" })
     public String getStudentById(@PathVariable("id") Long id) {
-        System.out.println("\nMapped\n");
         return service.getStudentById(id).get().toString();
     }
 
+
+    @GetMapping(value = "/{name}", produces = { "application/json" })
+    public List<Student> getStudentByName(@PathVariable("name") String name) {
+        return service.getStudentByName(name);
+    }
+    
     // @PostMapping(value = "/{id}", produces={"application/json"})
     // public Student demo(@PathVariable Long id) {
     //     return service.getStudentById(id).get();
     // }
 
-    @PostMapping("/{id}")
-    public boolean updateStudentName(@PathVariable Long id, @PathVariable String username) {
-        return service.updateName(id, username);
+    @PostMapping("/{id}{name}")
+    public boolean updateStudentName(@PathVariable Long id, @PathVariable String name) {
+        return service.updateName(id, name);
     }
 
     @PostMapping("/{id}&/{name}")
@@ -76,8 +81,8 @@ public class StudentController {
         return service.addNewStudent(student).toString();
     }
 
-    // @DeleteMapping("/{id}")
-    // public void removeStudent(@PathVariable Long[] ids) {
-    //     service.remove(ids);
-    // }
+    @DeleteMapping("/{id}")
+    public void removeStudent(@PathVariable Long id) {
+        service.remove(id);
+    }
 }
