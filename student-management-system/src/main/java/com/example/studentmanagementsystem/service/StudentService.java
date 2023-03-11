@@ -39,18 +39,24 @@ public class StudentService {
         return repo.findByName(name);
     }
     
-    public boolean updateName(Long id, String name) {
-        return false;
+    public Student updateStudentInfo(Long id, Student student) {
+        if (id != student.getId()) {
+            throw new IllegalArgumentException("BAD Request!");
+        }
+        if (!repo.existsById(id)) {
+            return null;
+        }
+        repo.save(student);
+        return student;
     }
 
 
     public Student addNewStudent(Student student) {
         if (repo.findByEmail(student.getEmail()).isPresent()) {
-            repo.saveAndFlush(student);
-            return student;
+            throw new IllegalArgumentException("this email has signed up");
         }
-        System.out.println("\nNot found " + student.getEmail() + "\n\n");
-        throw new IllegalArgumentException("this email has signed up");
+        repo.saveAndFlush(student);
+        return student;
     }
 
     public void remove(Long id){

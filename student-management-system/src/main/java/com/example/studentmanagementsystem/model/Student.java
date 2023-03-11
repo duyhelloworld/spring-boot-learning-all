@@ -93,8 +93,6 @@ public class Student{
     
     public Student() {}
 
-    
-    
     public Long getId() {
         return id;
     }
@@ -141,6 +139,37 @@ public class Student{
 
     public void setDefinition(String definition) {
         this.definition = definition;
+    }
+
+
+    public Student id(Long id) {
+        setId(id);
+        return this;
+    }
+
+    public Student name(String name) {
+        setName(name);
+        return this;
+    }
+
+    public Student age(Integer age) {
+        setAge(age);
+        return this;
+    }
+
+    public Student height(Float height) {
+        setHeight(height);
+        return this;
+    }
+
+    public Student dob(LocalDate dob) {
+        setDob(dob);
+        return this;
+    }
+
+    public Student email(String email) {
+        setEmail(email);
+        return this;
     }
 
     @Override

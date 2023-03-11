@@ -67,13 +67,10 @@ public class StudentController {
     // }
 
     @PostMapping("/{id}{name}")
-    public boolean updateStudentName(@PathVariable Long id, @PathVariable String name) {
-        return service.updateName(id, name);
-    }
-
-    @PostMapping("/{id}&/{name}")
-    public boolean updateName(@PathVariable Long id, @PathVariable String name) {
-        return service.updateName(id, name);
+    public void updateStudentInfo(@PathVariable Long id, @PathVariable String name) {
+        Student student = new Student();
+        student.name(name);
+        service.updateStudentInfo(id, student);
     }
 
     @PutMapping("/")
