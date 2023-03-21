@@ -5,26 +5,21 @@ import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-// import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.example.studentmanagementsystem.model.Student;
 
-// @EnableJpaRepositories
 @Repository
 // Data access layer
 public interface StudentRepo extends JpaRepository<Student, Long> {
     @Query(
-            nativeQuery = false,
-            // value = "SELECT s FROM student s WHERE s.email = ?1"
-            value = "SELECT s FROM Student s WHERE s.email = :email"
+        nativeQuery = false,
+        // value = "SELECT s FROM Student s WHERE s.email = :email"
+        value = "SELECT s FROM Student s WHERE s.email = ?1"
         )
-        Optional<Student> findByEmail(
-                // String email
-                @Param("email") String email
-        );
+    Optional<Student> findByEmail(@Param("email") String email);
 
-    @Query(value = "SELECT name FROM Student s WHERE s.name LIKE %?1%", nativeQuery = true)
+    @Query(value = "SELECT s FROM Student s WHERE s.name LIKE CONCAT('%', ?1, '%')")
     List<Student> findByName(String name);
 }

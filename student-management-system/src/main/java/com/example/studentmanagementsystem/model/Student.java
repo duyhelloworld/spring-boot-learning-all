@@ -9,26 +9,22 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
-import jakarta.persistence.UniqueConstraint;
-// import jakarta.persistence.Lob;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
-// import jakarta.persistence.SequenceGenerator;
 
-@Entity
+
+@Entity(name = "Student")
 @Table(
-    uniqueConstraints = {
-        @UniqueConstraint(name = "student_email_unique", columnNames = "email" 
-        // columnName used to map with @Column below
-        )
-    },
-    name = "student"
+    // uniqueConstraints = {
+    //     @UniqueConstraint(name = "student_email_unique", columnNames = "email" 
+    //     // columnName used to map with @Column below
+    //     )
+    // },
 )
 
-
-public class Student{
+public class Student {
     @Id
-    @GeneratedValue(generator = "student_sq", strategy = GenerationType.SEQUENCE /* Sequencing depend on DBMS. MySQL - auto */)
+    @GeneratedValue(generator = "student_sq", strategy = GenerationType.IDENTITY /* Sequencing depend on DBMS. MySQL - auto */)
 
     // @SequenceGenerator(
     //         name = "student_sq", /* SequenGen(name) = GeneratedValue(generator) */
@@ -41,14 +37,6 @@ public class Student{
     /* Only work when use BigDecimal */
     @Column(updatable = false) 
     private Long id;
-
-    /**
-     * Sequence is some column auto-increment
-     * In MYSQL, it is AUTO_INCREMENT constraint. It can {
-     *                  "update current ID by every greater ID which isn't existing in table"
-     *                  "Change id to another id which not assigned"         
-     * }
-     */
     
     @Column(length = 30, nullable = false)
     private String name;
@@ -77,7 +65,7 @@ public class Student{
 
     @Column(columnDefinition = "TEXT")
     // or
-    // @Lob
+    // @Lob --> TEXT
     private String definition;
         
     public Student(String name,
@@ -141,49 +129,15 @@ public class Student{
         this.definition = definition;
     }
 
-
-    public Student id(Long id) {
-        setId(id);
-        return this;
-    }
-
-    public Student name(String name) {
-        setName(name);
-        return this;
-    }
-
-    public Student age(Integer age) {
-        setAge(age);
-        return this;
-    }
-
-    public Student height(Float height) {
-        setHeight(height);
-        return this;
-    }
-
-    public Student dob(LocalDate dob) {
-        setDob(dob);
-        return this;
-    }
-
-    public Student email(String email) {
-        setEmail(email);
-        return this;
-    }
-
     @Override
     public String toString() {
         return "{" +
-            " id='" + getId() + "'\n" +
-            ", name='" + getName() + "'\n" +
-            ", age='" + getAge() + "'\n" +
-                ", dob='" + getDob() + "'\n" +
-                ", height='" + getHeight() + "'\n" +
-                ", email='" + getEmail() + "'\n" +
-                ", definition='" + getDefinition() + "'\n" +
+            "\n\t\"id\" : " + getId() + ",\n" +
+                "\t\"name\" : \"" + getName() + "\",\n" +
+                "\t\"age\" : " + getAge() + ",\n" +
+                "\t\"dob\" : \"" + getDob() + "\",\n" +
+                "\t\"email\" : \"" + getEmail() + "\",\n" +
+                "\t\"desc\" : \"" + getDefinition() + "\"\n" +
                 "}";
     }
-    
-
 }

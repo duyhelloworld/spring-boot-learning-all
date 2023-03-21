@@ -20,29 +20,24 @@ public class StudentConfig {
             LocalDate.of(2003, Month.DECEMBER, 9),
             1.75f,
             "codedao",
-            "");
+            "devngu");
             Student hs2 = new Student("Viet Hoang",
             LocalDate.of(2003, Month.FEBRUARY, 11),
             1.65f,
             "hoangdanau",
-            "vtv");
+            "vtv MC");
 
             Student hs3 = new Student("Quang Cuon",
             LocalDate.of(2002, Month.OCTOBER, 23),
             1.85f,
             "cuadong@mail",
-            "Dep trai");
+            "Hello my bio");
 
             Student hs4 = new Student("Pham Duy",
             LocalDate.of(2003, Month.JULY, 5),
             1.75f,
             "codedaongaongao",
-            "dz");
-
-            // repo.save(hs1);
-            // repo.save(hs2);
-            // repo.save(hs3);
-            // repo.save(hs4);
+            "dzai");
 
             repo.saveAll(
                 List.of(hs1, hs2, hs3, hs4)

@@ -3,6 +3,9 @@ package com.example.studentmanagementsystem.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.core.annotation.Order;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -10,76 +13,66 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.studentmanagementsystem.model.Student;
-/*
- * @GetMapping("/")
-    public String hello_world() {
-        return "<h1>Hello World</h1>";
-    }
-    @GetMapping("/json-example")
-    public List<String> jsonExample() {
-        return List.of("Title", "Content", "Footer", "About Us");
-     }
- */
 import com.example.studentmanagementsystem.service.StudentService;
 
 @RestController
 @RequestMapping(path = "/api/v1/student")
+@CrossOrigin(origins = "http://localhost:5500")
 public class StudentController {
 
     // DI - Constructor
-    private final StudentService service;
+    private StudentService service;
 
-    @Autowired(required = true)
-    public StudentController(StudentService service) {
+    // @Autowired
+    // public StudentController(StudentService service) {
+    //     this.service = service;
+    // }
+    // DI - Setter
+    
+    @Autowired
+    public void setStudentService(StudentService service) {
         this.service = service;
     }
-
-    // DI - Setter
-    /*
-     * private StudentService service;
-     * public void setStudentService(StudentService service) {
-     * this.service = service;
-     * }
-     */
-
-    @GetMapping("/")
+    
+    @GetMapping(value = { "" })
     public List<Student> getAllStudents() {
         return service.getAllStudent();
     }
 
-    @GetMapping(value = "/{id}", produces = { "application/json" })
+    @GetMapping(path = "/{id}")
     public String getStudentById(@PathVariable("id") Long id) {
         return service.getStudentById(id).get().toString();
     }
 
-
-    @GetMapping(value = "/{name}", produces = { "application/json" })
-    public List<Student> getStudentByName(@PathVariable("name") String name) {
-        return service.getStudentByName(name);
+    @GetMapping(value = "/")
+    public String getStudentByName(@RequestParam("name") String name) {
+        return service.getStudentByName(name).toString();
     }
-    
-    // @PostMapping(value = "/{id}", produces={"application/json"})
-    // public Student demo(@PathVariable Long id) {
-    //     return service.getStudentById(id).get();
+
+    @PostMapping(path = { "/", "" }, produces = { "text/plain", "application/json" })
+    public String registerNewStudent(@RequestBody(required = true) Student student) {
+        return service.addStudent(student).toString();
+    }
+
+    // @PutMapping(value = "/{studentId}", produces = "application/json")
+    // public void updateStudentInfo(@PathVariable(value = "studentId") Long id, @RequestBody(required = true) Student student) {
+    //     service.updateStudentInfo(id, student);
     // }
 
-    @PostMapping("/{id}{name}")
-    public void updateStudentInfo(@PathVariable Long id, @PathVariable String name) {
-        Student student = new Student();
-        student.name(name);
-        service.updateStudentInfo(id, student);
-    }
-
-    @PutMapping("/")
-    public String registerNewStudent(@RequestBody Student student){
-        return service.addNewStudent(student).toString();
+    @PutMapping("/{id}")
+    public void updateStudentInfo(
+            @PathVariable("id") Long id,
+            @RequestParam(defaultValue = "") String name,
+            @RequestParam(defaultValue = "", required = true) String email) {
+        service.updateStudentInfo(id, name, email);
     }
 
     @DeleteMapping("/{id}")
-    public void removeStudent(@PathVariable Long id) {
-        service.remove(id);
+    public void removeStudent(@PathVariable("id") Long id) {
+        service.removeById(id);
     }
 }
