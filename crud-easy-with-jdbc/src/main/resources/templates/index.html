@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Homepage" />
+    <title>CRUD</title>
+  </head>
+  <body>
+    <span>HELLO CRUD</span><br />
+    <div class="box">
+      <nav class="navbar">
+        <ul>
+          <li>
+            <button id="createStudent">CREATE</button>
+            <div class="field">Name :</div>
+            <input type="hidden" id="crtName" />
+            <div class="field">Age :</div>
+            <input type="hidden" id="crtAge" />
+            <div class="field">Date of Birth :</div>
+            <input type="hidden" id="crtDob" />
+            <div class="field">Sex :</div>
+            <label>Male</label>
+            <input type="hidden" id="crtSexMale" name="crtSex"/>
+           <label>Female</label>
+            <input type="hidden" id="crtSexFemale" name="crtSex" />
+            <div class="field">Email :</div>
+            <input type="hidden" id="crtEmail" />
+            <input type="hidden" id="crtSubmit" value="Submit">
+          </li>
+          <li>
+            <button>READ</button>
+            <select name="readMode" id="readMode">
+              <option value="readAStudent" id="readAStudent">
+                READ A STUDENT :
+              </option>
+              <option value="readAllStudents" id="readAllStudents">
+                READ ALL STUDENTS
+              </option>
+            </select>
+            <input type="hidden" id="whatId" />
+            <input type="submit" value="READ" id="readStudent" />
+          </li>
+          <li>
+            <button id="updateStdBtn">UPDATE</button>
+            <input type="number" id="updateStudent" placeholder="ID = " />
+          </li>
+          <li>
+            <button id="deleteStdBtn">DELETE</button>
+            <input type="number" id="deleteStudent" placeholder="ID = " />
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </body>
+</html>
+<script>
+  let createStudent = document.getElementById("createStudent");
+  let readAllStudents = document.getElementById("readAllStudents");
+  let readStudent = document.getElementById("readStudent");
+  let readMode = document.getElementById("readMode");
+  let whatId = document.getElementById("whatId");
+  let crtName = document.getElementById("crtName");
+
+  const callStudents = async () => {
+    let response = await fetch("http://localhost:8080/student/all");
+    return await response.json();
+  };
+
+  const callStudentById = async (id) => {
+    let response = await fetch(`http://localhost:8080/student/${id}`);
+    let data = await response.json();
+    return data;
+  };
+
+  const readModeHander = () => {
+    if (readMode.value === "readAStudent") {
+      whatId.setAttribute("type", "number");
+      if (whatId.value !== "") {
+        console.log(callStudentById(whatId.value));
+      } else {
+        alert("Enter the student's id");
+      }
+    } else if (readMode.value === "readAllStudents")
+      console.log(callStudents());
+  };
+  readStudent.addEventListener("click", readModeHander);
+
+  const createStudentHandler = () => {
+    crtName.setAttribute("type", "text");
+    document.getElementById("crtAge").setAttribute("type", "number");
+    document.getElementById("crtDob").setAttribute("type", "date");
+    document.getElementById("crtSexMale").setAttribute("type", "radio");
+    document.getElementById("crtSexFemale").setAttribute("type", "radio");
+    
+    document.getElementById("crtEmail").setAttribute("type", "email");
+  };
+
+  createStudent.addEventListener("click", createStudentHandler);
+</script>

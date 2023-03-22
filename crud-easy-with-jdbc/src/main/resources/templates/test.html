@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div class="box">
+      <span>Enter the student's id : </span>
+      <input type="number" name="id" id="getIDstudent" /> <br />
+      <input type="submit" value="Submit" id="subBtn" />
+    </div>
+
+    <div class="result">
+      <pre id="json"></pre>
+    </div>
+  </body>
+</html>
+<script>
+  let printToResult = (data) => {
+    let json = document.getElementById("json");
+    json.textContent = JSON.stringify(data, undefined, 2);
+  };
+</script>
