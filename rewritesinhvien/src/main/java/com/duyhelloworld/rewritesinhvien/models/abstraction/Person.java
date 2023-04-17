@@ -1,43 +1,47 @@
-package com.duyhelloworld.rewritesinhvien.models;
+package com.duyhelloworld.rewritesinhvien.models.abstraction;
 
 import java.time.LocalDate;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+
+import com.duyhelloworld.rewritesinhvien.models.properties.InfoOfAddress;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.Embedded;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.MappedSuperclass;
-import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
-import jakarta.persistence.UniqueConstraint;
+import jakarta.persistence.Transient;
 
-@Entity
+
 @MappedSuperclass
-@Table(uniqueConstraints = @UniqueConstraint(columnNames = "number_phone"))
 public abstract class Person {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Embedded
-    @Column(length = 200)
-    private Name name;
+    @Transient
+    private Name name ;
+
+    @Column(length = 200, name = "full_name")
+    private String fullName = (name != null) ? name.toString() : "";
 
     private Boolean sex;
 
     @Embeddable
     public class Name {
+        @Column(length = 30)
         String firstName;
+        @Column(length = 30)
         String middleName;
+        @Column(length = 30)
         String lastName;
 
         public Name(String fullName){
@@ -56,40 +60,37 @@ public abstract class Person {
     @Temporal(TemporalType.DATE)
     private LocalDate dob;
 
-    @Embedded
-    private Address addresses;
+    
+    @Column(name = "was_born_in", length = 100)
+    private String wasBornIn;
+    
+    @Column(name = "current_live_in", length = 100)
+    private String currentLiveIn;
 
-    @Embeddable
-    public class Address {
-        @Enumerated(EnumType.STRING)
-        Map<InfoOfAddress, String> currentLiveIn;
-        @Enumerated(EnumType.STRING)
-        Map<InfoOfAddress, String> wasBornIn;
+    @Transient
+    private Map<InfoOfAddress, String> M_currentLiveIn = new HashMap<>();
+    @Transient
+    private Map<InfoOfAddress, String> M_wasBornIn = new HashMap<>();
 
-        @Override
-        public String toString() {
-            return "currentLiveIn=" + currentLiveIn.values() + ",\nwasBornIn=" + wasBornIn.values();
-        }
-    }
-
-    @Column(length = 100)
+    @Column(length = 100, name = "email")
     private String email;
 
-    @Column(length = 10, unique = true, name = "number_phone")
+    @Column(length = 10, name = "number_phone")
     private String numberPhone;
-
-
-
-
 
     public Person() {
     }
 
-    public Person(Name name, Boolean sex, LocalDate dob, Address addresses, String email, String numberPhone) {
+    public Person(Name name, Boolean sex, LocalDate dob, Map<InfoOfAddress, String> M_wasBornIn, Map<InfoOfAddress, String> M_currentLiveIn, String email, String numberPhone) {
         this.name = name;
         this.sex = sex;
         this.dob = dob;
-        this.addresses = addresses;
+        if (M_wasBornIn != null) {
+            this.wasBornIn = M_wasBornIn.values().toString().split(", ").toString();
+        }
+        if (M_currentLiveIn != null) {
+            this.currentLiveIn = M_currentLiveIn.values().toString().split(", ").toString();
+        }
         this.email = email;
         this.numberPhone = numberPhone;
     }
@@ -130,12 +131,57 @@ public abstract class Person {
         this.dob = dob;
     }
 
-    public Address getAddresses() {
-        return this.addresses;
+    public Map<InfoOfAddress,String> getMapCurrentLiveIn() {
+        return this.M_currentLiveIn;
     }
 
-    public void setAddresses(Address addresses) {
-        this.addresses = addresses;
+    public Map<InfoOfAddress, String> getMapWasBornIn() {
+        return this.M_wasBornIn;
+    }
+
+    public void setCurrentLiveIn(Map<InfoOfAddress, String> currentLiveIn) {
+        this.M_currentLiveIn = currentLiveIn;
+    }
+    
+    public void setWasBornIn(Map<InfoOfAddress, String> wasBornIn) {
+        this.M_wasBornIn = wasBornIn;
+    }
+
+    public void setWasBornIn(String houseNumber, String road, String street, String commune, String district, String province, String city) {
+        this.M_wasBornIn.put(InfoOfAddress.HOUSE_NUMBER, houseNumber);
+        this.M_wasBornIn.put(InfoOfAddress.ROAD, road);
+        this.M_wasBornIn.put(InfoOfAddress.STREET, street);
+        this.M_wasBornIn.put(InfoOfAddress.COMMUNE, commune);
+        this.M_wasBornIn.put(InfoOfAddress.DISTRICT, district);
+        this.M_wasBornIn.put(InfoOfAddress.PROVINCE, province);
+        this.M_wasBornIn.put(InfoOfAddress.CITY, city);
+    }
+    
+    public void setCurrentLiveIn(String houseNumber, String road, String street, String commune, String district,
+            String province) {
+        this.M_currentLiveIn.put(InfoOfAddress.HOUSE_NUMBER, houseNumber);
+        this.M_currentLiveIn.put(InfoOfAddress.ROAD, road);
+        this.M_currentLiveIn.put(InfoOfAddress.STREET, street);
+        this.M_currentLiveIn.put(InfoOfAddress.COMMUNE, commune);
+        this.M_currentLiveIn.put(InfoOfAddress.DISTRICT, district);
+        this.M_currentLiveIn.put(InfoOfAddress.PROVINCE, province);
+    }
+
+    
+    public String getFullName() {
+        return this.fullName;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
+    }
+
+    public String getWasBornIn() {
+        return this.wasBornIn;
+    }
+
+    public String getCurrentLiveIn() {
+        return this.currentLiveIn;
     }
     
     public String getEmail() {
@@ -182,10 +228,16 @@ public abstract class Person {
         return this;
     }
 
-    public Person locations(Address addresses) {
-        setAddresses(addresses);
+    public Person currentLiveIn(Map<InfoOfAddress,String> currentLiveIn) {
+        setCurrentLiveIn(currentLiveIn);
         return this;
     }
+
+    public Person wasBornIn(Map<InfoOfAddress,String> wasBornIn) {
+        setWasBornIn(wasBornIn);
+        return this;
+    }
+    
 
     public Person email(String email) {
         setEmail(email);
@@ -220,7 +272,7 @@ public abstract class Person {
             ", name='" + getName() + "'" +
             ", sex='" + isSex() + "'" +
             ", dob='" + getDob() + "'" +
-            ", locations= {\n\twasBorn=" + getAddresses().wasBornIn.toString() + "',\n\tcurrentLiving='" + getAddresses().currentLiveIn.toString() + "'" +
+            ", locations= {\n\twasBorn=" + getWasBornIn() + "',\n\tcurrentLiving='" + getCurrentLiveIn() + "'" +
             ", email='" + getEmail() + "'" +
             ", numberPhone='" + getNumberPhone() + "'" +
             "}";
