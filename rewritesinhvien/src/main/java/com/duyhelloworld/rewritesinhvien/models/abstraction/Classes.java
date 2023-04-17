@@ -1,15 +1,10 @@
 package com.duyhelloworld.rewritesinhvien.models.abstraction;
 
-import java.util.Objects;
-
-import com.duyhelloworld.rewritesinhvien.models.childerens.Teacher;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.MappedSuperclass;
-import jakarta.persistence.OneToOne;
 
 @MappedSuperclass
 public abstract class Classes {
@@ -19,9 +14,6 @@ public abstract class Classes {
 
     @Column(length = 20)
     private String name;
-
-    @OneToOne
-    private Teacher teacher;
 
     public Long getId() {
         return this.id;
@@ -39,21 +31,16 @@ public abstract class Classes {
         this.name = name;
     }
 
-    public Teacher getTeacher() {
-        return this.teacher;
-    }
-
-    public void setTeacher(Teacher teacher) {
-        this.teacher = teacher;
-    }
-
     public Classes name(String name) {
         setName(name);
         return this;
     }
 
-    public Classes teacher(Teacher teacher) {
-        setTeacher(teacher);
-        return this;
+    @Override
+    public String toString() {
+        return "{" +
+            " id='" + getId() + "'" +
+            ", name='" + getName() + "'" +
+            "}";
     }
 }

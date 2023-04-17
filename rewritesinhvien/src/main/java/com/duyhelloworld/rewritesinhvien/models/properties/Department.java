@@ -1,6 +1,6 @@
 package com.duyhelloworld.rewritesinhvien.models.properties;
 
-import java.util.List;
+import java.util.Set;
 
 import com.duyhelloworld.rewritesinhvien.models.childerens.SubjectClass;
 
@@ -16,5 +16,8 @@ public class Department {
     private String roomName;
 
     @OneToMany(mappedBy = "department")
-    private List<SubjectClass> subjectClasses;
+    private Set<SubjectClass> subjectClasses;
+
+    @Column(length = 100, nullable = false)
+    private String location;
 }

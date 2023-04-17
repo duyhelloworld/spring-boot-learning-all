@@ -4,6 +4,7 @@ import java.util.Set;
 
 import com.duyhelloworld.rewritesinhvien.models.abstraction.Classes;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
@@ -16,10 +17,13 @@ import jakarta.persistence.UniqueConstraint;
     @UniqueConstraint(name = "UK_manage_class_name", columnNames = "name")
 })
 public class ManageClass extends Classes {
-    @OneToOne
-    @JoinColumn(name = "teacher_id")
+    @OneToOne(targetEntity = Teacher.class)
+    @JoinColumn(name = "teacher_id", referencedColumnName = "id")
     private Teacher teacher;
 
     @OneToMany(mappedBy = "manageClass")
     private Set<Student> studentsInManageClass;
+
+    @Column(name = "name")
+    private String name;
 }
