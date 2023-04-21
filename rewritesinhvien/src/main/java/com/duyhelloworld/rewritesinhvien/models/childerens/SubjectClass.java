@@ -12,13 +12,14 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
 
 @Entity
 public class SubjectClass extends Classes {
 
-    @OneToOne
-    @JoinColumn(name = "subject_id", referencedColumnName = "id")
+    @ManyToOne
+    @JoinColumn(name = "subject_id", 
+        referencedColumnName = "id", 
+        foreignKey = @ForeignKey(name = "FK_SubjectClass_Subject"))
     private Subject subject;
 
     @ManyToMany
@@ -36,7 +37,7 @@ public class SubjectClass extends Classes {
     private Set<Student> students;
 
     @ManyToOne
-    @JoinColumn(name = "department_id", 
+    @JoinColumn(name = "department_name", 
         referencedColumnName = "roomName",
         foreignKey = @ForeignKey(name = "FK_subjectClass_department"))
     private Department department;
