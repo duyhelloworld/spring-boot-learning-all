@@ -1,0 +1,7 @@
+https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#features.logging
+
+security
+https://spring.io/guides/gs/securing-web/
+
+GEtting started
+https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#web.security
