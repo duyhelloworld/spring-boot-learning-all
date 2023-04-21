@@ -28,7 +28,7 @@ public abstract class Person {
 
     @Embedded
     @Transient
-    private Name name ;
+    private Name name;
 
     @Column(length = 200, name = "full_name")
     private String fullName = (name != null) ? name.toString() : "";
@@ -59,7 +59,6 @@ public abstract class Person {
 
     @Temporal(TemporalType.DATE)
     private LocalDate dob;
-
     
     @Column(name = "was_born_in", length = 100)
     private String wasBornIn;
