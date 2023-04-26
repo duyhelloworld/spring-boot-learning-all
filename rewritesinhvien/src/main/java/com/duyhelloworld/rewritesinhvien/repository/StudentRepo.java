@@ -1,6 +1,8 @@
 package com.duyhelloworld.rewritesinhvien.repository;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -15,10 +17,14 @@ public interface StudentRepo extends JpaRepository<Student, Integer> {
     List<Student> getStudentsByName(@Param("fullName") String fullName);
 
     @Query("SELECT s from Student s WHERE s.email = ?1")
-    List<Student> getStudentsByEmail(String email);
+    Optional<Student> getStudentsByEmail(String email);
 
-    @Query("SELECT s.numberPhone from Student s WHERE s.numberPhone LIKE CONCAT('%', ?1)")
-    List<String> getNumberPhoneLike(String numberPhone);
+    @Query("SELECT s from Student s WHERE s.numberPhone LIKE CONCAT('%', ?1)")
+    List<Student> getNumberPhoneLike(String numberPhone);
 
-    
+    // TODO
+    Set<Student> getStudentsByManageClass(Integer Mclass_id);
+
+    // TODO
+    Set<Student> getStudentsBySubjectClass(Integer Sclass_id);
 }
