@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="https://www.thymleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rapixel</title>
+</head>
+<body>
+    <h1>Chỉ ai đã login mới thấy trang này</h1>
+
+    <div>
+        <img th:src="@{/resources/images/50shadeOfGreys.jpg}"/>
+        <img th:src="@{/resources/images/Catalogs.jp}" />
+        <img th:src="@{/resources/images/yourname.png}"/>
+        <img th:src="@{/resources/images/sherlockHolmes.jpg}" />
+    </div>
+
+    <form th:action="@{/logout}" method="post">
+        <input type="submit" name="sign-out" id="sign-out-btn" value="Sign Out">
+    </form>
+</body>
+</html>

@@ -1,11 +1,11 @@
 package com.springboot.security.learning.oauth.model;
 
-public class Student {
+public class Hero {
     private final Integer id;
 
     private final String name;
 
-    public Student(Integer id, String name) {
+    public Hero(Integer id, String name) {
         this.id = id;
         this.name = name;
     }
